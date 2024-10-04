@@ -1,0 +1,35 @@
+class Solution {
+    public long dividePlayers(int[] skill) {
+        int n = skill.length;
+        if (n < 2 || skill == null || n % 2 != 0) {
+            return -1;
+        }
+        Arrays.sort(skill);
+        long total = 0;
+        for (int s : skill) {
+            total += s;
+        }
+        
+        // We need to check if the total sum can be evenly divided into pairs
+        long reqSumOfPair = total / (n / 2);
+        if (total % (n / 2) != 0) {
+            return -1;
+        }
+        
+        long ans = 0;
+        int left = 0;
+        int right = n - 1;
+        
+        while (left < right) {
+            long currSum = skill[left] + skill[right];
+            if (currSum != reqSumOfPair) {
+                return -1; 
+            }
+            ans += (long) skill[left] * skill[right];
+            left++;
+            right--;
+        }
+        
+        return ans;
+    }
+}
