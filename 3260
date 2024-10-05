@@ -1,0 +1,78 @@
+// main logic is to identify pattern of this problem
+class Solution {
+    public String largestPalindrome(int n, int k) {
+        final char[] result = new char[n];
+        Arrays.fill(result, '9');
+        final int halfLength = (n >> 1);
+
+        if (k == 1 || k == 3 || k == 9) {
+            return String.valueOf(result);
+        } else if (k == 2) {
+            result[0] = '8';
+            result[n - 1] = '8';
+            return String.valueOf(result);
+        } else if (k == 4) {
+            result[0] = '8';
+            result[n - 1] = '8';
+            if (n > 2) {
+                result[1] = '8';
+                result[n - 2] = '8';
+            }
+            return String.valueOf(result);
+        } else if (k == 5) {
+            result[0] = '5';
+            result[n - 1] = '5';
+            return String.valueOf(result);
+        } else if (k == 6) {
+            if (n < 3) {
+                Arrays.fill(result, '6');
+            } else if ((n & 1) == 1) {
+                result[0] = '8';
+                result[n - 1] = '8';
+                result[halfLength] = '8';
+            } else {
+                result[0] = '8';
+                result[n - 1] = '8';
+                result[halfLength - 1] = '7';
+                result[halfLength] = '7';
+            }
+            return String.valueOf(result);
+        } else if (k == 8) {
+            result[0] = '8';
+            result[n - 1] = '8';
+            if (n > 2) {
+                result[1] = '8';
+                result[n - 2] = '8';
+                if (n > 4) {
+                    result[2] = '8';
+                    result[n - 3] = '8';
+                }
+            }
+            return String.valueOf(result);
+        } else {
+            if (n == 1) {
+                for (int i = 9; i >= 0; i--) {
+                    if (i % k == 0) {
+                        return String.valueOf(i);
+                    }
+                }
+            }
+            BigInteger upperBound = BigInteger.TEN.pow((n + 1) / 2).subtract(BigInteger.ONE);
+            BigInteger lowerBound = BigInteger.TEN.pow((n - 1) / 2);
+
+            for (BigInteger half = upperBound; half.compareTo(lowerBound) >= 0; half = half.subtract(BigInteger.ONE)) {
+                String halfStr = half.toString();
+                String palindromeStr = (n % 2 == 0)
+                        ? halfStr + new StringBuilder(halfStr).reverse().toString()
+                        : halfStr + new StringBuilder(halfStr.substring(0, halfStr.length() - 1)).reverse().toString();
+
+                BigInteger palindrome = new BigInteger(palindromeStr);
+
+                if (palindrome.mod(BigInteger.valueOf(k)).equals(BigInteger.ZERO)) {
+                    return palindromeStr;
+                }
+            }
+        }
+        return null;
+    }
+}
