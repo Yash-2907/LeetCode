@@ -39,3 +39,28 @@ class Solution {
     }
 }
 ********************************************************************************************************************************************************
+************************************************ basic Approach ****************************************************************************************
+class Solution {
+    public int minLength(String s) {
+        boolean flag = true;
+        
+        while (flag) {
+            flag = false; // Set to false initially to check if any replacements are made
+            
+            int x = s.indexOf("AB");
+            if (x >= 0) {
+                s = s.substring(0, x) + s.substring(x + 2);
+                flag = true; // Found "AB", so set flag to true to continue
+            }
+            
+            int y = s.indexOf("CD");
+            if (y >= 0) {
+                s = s.substring(0, y) + s.substring(y + 2);
+                flag = true; // Found "CD", so set flag to true to continue
+            }
+        }
+        
+        return s.length(); // Return the final length after all replacements
+    }
+}
+*******************************************************************************************************************************************************
