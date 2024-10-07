@@ -1,0 +1,21 @@
+******************************************************* MOST OPTIMISE APPROACH*******************************************************************
+class Solution {
+    public int minLength(String s) {
+        StringBuilder str = new StringBuilder();
+        int n = s.length();
+        
+        for (int i = 0; i < n; i++) {
+            char current = s.charAt(i);
+            int len = str.length();
+            if (current == 'B' && len > 0 && str.charAt(len - 1) == 'A') {
+                str.deleteCharAt(len - 1);  // Remove 'A' when "AB" pair is foun
+            } else if (current == 'D' && len > 0 && str.charAt(len - 1) == 'C') {
+                str.deleteCharAt(len - 1);  // Remove 'C' when "CD" pair is found
+            } else {
+                str.append(current);
+            }
+        }
+        return str.length();
+    }
+}
+***************************************************************************************************************************************************************
