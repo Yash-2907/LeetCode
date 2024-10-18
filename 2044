@@ -1,0 +1,22 @@
+class Solution {
+    public int countMaxOrSubsets(int[] nums) {
+        int n = nums.length;
+        if(n ==1){
+            return 1;
+        }
+        int max =0;
+        for(int i =0;i<n;i++){
+            max = max|nums[i];
+        }
+        int count = help(nums,0,max,0,n);
+        return count;
+    }
+    public static int help(int[]nums,int currOR,int max,int pos,int n){
+        if(pos == n){
+            return max==currOR ? 1:0;
+        }
+        int include = help(nums, currOR| nums[pos],max,pos+1,n);
+        int exclude = help(nums,currOR,max,pos+1,n);
+        return include+exclude;
+    }
+}
