@@ -1,0 +1,25 @@
+********************************BRUTE FORCE APPROACH *********************************************
+
+class Solution {
+    public char findKthBit(int n, int k) {
+        String s = "0";
+        for (int i = 1; i < n; i++) {
+            s = s + "1" + rev(s);
+        }
+        return s.charAt(k);
+    }
+    public static String rev(String s) {
+        String ans = "";
+        int n = s.length();
+        for (int i = n - 1; i >= 0; i--) {
+            if (s.charAt(i) == '0') {
+                ans = ans + "1";
+            } else {
+                ans = ans + "0";
+            }
+        }
+        return ans;
+    }
+}
+
+**************************************** OPTIMIZED APPROACH **********************************
