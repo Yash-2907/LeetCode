@@ -1,0 +1,46 @@
+************************************************************* Approch 1*********************************************************
+class Solution {
+    public boolean parseBoolExpr(String expression) {
+        Stack<Character> stk = new Stack<>();
+        for (int i = 0; i < expression.length(); i++) {
+            char c = expression.charAt(i);
+            if (c == 't' || c == 'f' || c == '(' || c == '!' || c == '&' || c == '|') {
+                stk.push(c);
+            } else if (c == ')') {
+                ArrayList<Character> arr = new ArrayList<>();
+                while (stk.peek() != '(') {
+                    arr.add(stk.pop());
+                }
+                stk.pop();
+                char op = stk.pop();
+                if (op == '!') {
+                    stk.push(not(arr));
+                } else if (op == '&') {
+                    stk.push(and(arr));
+                } else if (op == '|') {
+                    stk.push(or(arr));
+                }
+            }
+        }
+        return stk.peek() == 't';
+    }
+    static char and(ArrayList<Character> arr) {
+        for (char c : arr) {
+            if (c == 'f') {
+                return 'f';
+            }
+        }
+        return 't';
+    }
+    static char or(ArrayList<Character> arr) {
+        for (char c : arr) {
+            if (c == 't') {
+                return 't';
+            }
+        }
+        return 'f';
+    }
+    static char not(ArrayList<Character> arr) {
+        return arr.get(0) == 't' ? 'f' : 't';
+    }
+}
