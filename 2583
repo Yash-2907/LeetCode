@@ -1,0 +1,33 @@
+**********************************************************  USING QUEUE**************************************************************
+class Solution {
+    public long kthLargestLevelSum(TreeNode root, int k) {
+        if (root == null) {
+            return 0;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        List<Long> levelSums = new ArrayList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            long ls = 0;
+            for (int i = 0; i < size; i++) {
+                TreeNode current = queue.poll();
+                ls += current.val;
+
+                if (current.left != null) {
+                    queue.add(current.left);
+                }
+                if (current.right != null) {
+                    queue.add(current.right);
+                }
+            }
+            levelSums.add(ls);
+        }
+        if (levelSums.size() < k) {
+            return -1;
+        }
+        Collections.sort(levelSums, Collections.reverseOrder());
+        return levelSums.get(k - 1);
+    }
+}
+***************************************************************************************************************************
