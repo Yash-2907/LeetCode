@@ -1,0 +1,17 @@
+class Solution {
+    public int posibleStringCount(String word) {
+        int ans = 1;
+        int i = 0;
+        int n = word.length();
+        while (i < n) {
+            int fre = 0;
+            char curr = word.charAt(i);
+            while (i < n && word.charAt(i) == curr) {
+                i++;
+                fre++;
+            }
+            ans *= fre;
+        }
+        return ans;
+    }
+}
