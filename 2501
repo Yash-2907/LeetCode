@@ -27,3 +27,28 @@ class Solution {
     }
 }
 *****************************************************************************************************************************************
+/*
+first method
+
+class Solution {
+    public int longestSquareStreak(int[] nums) {
+        int max = -1;
+        Arrays.sort(nums);
+        HashSet<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
+        }
+        for (int num : nums) {
+            if (!set.contains(num * num)) continue;
+            int count = 1;
+            int curr = num;
+            while (set.contains(curr * curr)) {
+                curr = curr * curr;
+                count++;
+            }
+            max = Math.max(max, count);
+        }
+        return max < 2 ? -1 : max;
+    }
+}
+ */
