@@ -1,0 +1,29 @@
+// so there are 2 methods to solve this ques 
+// 1st is to find the square of curr element 
+// but for long input this method can exceed the limit of int as well as long 
+// so to avoid it we can use below method
+class Solution {
+    public int longestSquareStreak(int[] nums) {
+        int max = -1;
+        Arrays.sort(nums);
+        HashSet<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
+        }
+        for (int num : nums) {
+            int count = 1;
+            int curr = num;
+            while (isPerfectSquare(curr) && set.contains((int)Math.sqrt(curr))) {
+                curr = (int) Math.sqrt(curr);
+                count++;
+            }
+            max = Math.max(max, count);
+        }
+        return max < 2 ? -1 : max;
+    }
+    private boolean isPerfectSquare(int n) {
+        int sqrt = (int) Math.sqrt(n);
+        return sqrt * sqrt == n;
+    }
+}
+*****************************************************************************************************************************************
