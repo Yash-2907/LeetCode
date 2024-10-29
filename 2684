@@ -1,0 +1,27 @@
+class Solution {
+    public int maxMoves(int[][] grid) {
+        int ans = 0;
+        int row = grid.length;
+        int col = grid[0].length;
+        int dp[][] = new int[row][col];
+        for (int m = col - 2; m >= 0; m--) {
+            for (int n = 0; n < row; n++) {
+                int max = 0;
+                if (n > 0 && grid[n - 1][m + 1] > grid[n][m]) {
+                    max = Math.max(dp[n - 1][m + 1] + 1, max);
+                }
+                if (grid[n][m + 1] > grid[n][m]) {
+                    max = Math.max(dp[n][m + 1] + 1, max);
+                }
+                if (n < row - 1 && grid[n + 1][m + 1] > grid[n][m]) {
+                    max = Math.max(dp[n + 1][m + 1] + 1, max);
+                }  
+                dp[n][m] = max;
+            }
+        }
+        for (int i = 0; i < row; i++) {
+            ans = Math.max(ans, dp[i][0]);
+        }
+        return ans;
+    }
+}
