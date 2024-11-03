@@ -1,0 +1,21 @@
+class Solution {
+    public int[] rearrangeArray(int[] nums) {
+        ArrayList<Integer> pos = new ArrayList<>();
+        ArrayList<Integer> neg = new ArrayList<>();
+        for (int num : nums) {
+            if (num >= 0) {
+                pos.add(num);
+            } else {
+                neg.add(num);
+            }
+        }
+        int[] ans = new int[nums.length];
+        int idn = 0, posIndex = 0, negIndex = 0;
+        while (idn < nums.length) {
+            ans[idn++] = pos.get(posIndex++);
+            ans[idn++] = neg.get(negIndex++);
+        }
+        
+        return ans;
+    }
+}
