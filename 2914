@@ -1,0 +1,13 @@
+class Solution {
+    public int minChanges(String s) {
+        int ind=1;
+        int count=0;
+        while(ind<s.length()){
+            if(s.charAt(ind)!=s.charAt(ind-1)){
+                count++;
+            }
+            ind=ind+2;
+        }
+        return count;
+    }
+}
