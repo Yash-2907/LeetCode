@@ -1,0 +1,10 @@
+class Solution {
+    public long minEnd(int n, int x) {
+          long current = x;
+        for (int i = 1; i < n; i++) {
+            current += 1;
+            current |= x;
+        }
+        return current;
+    }
+}
