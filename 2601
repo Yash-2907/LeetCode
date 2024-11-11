@@ -1,0 +1,34 @@
+public class Solution {
+
+    public boolean checkPrime(int num) {
+       if (num <= 1) return false;
+        if (num == 2 || num == 3) return true;
+        if (num % 2 == 0 || num % 3 == 0) return false;
+        for (int i = 5; i * i <= num; i += 6) {
+            if (num % i == 0 || num % (i + 2) == 0) return false;
+        }
+        return true;
+    }
+    public boolean primeSubOperation(int[] nums) {
+        for (int i = 0; i < nums.length; i++) {
+            int bound;
+            if (i == 0) {
+                bound = nums[0];
+            } else {
+                bound = nums[i] - nums[i - 1];
+            }
+            if (bound <= 0) {
+                return false;
+            }
+            int largestPrime = 0;
+            for (int j = bound - 1; j >= 2; j--) {
+                if (checkPrime(j)) {
+                    largestPrime = j;
+                    break;
+                }
+            }
+            nums[i] = nums[i] - largestPrime;
+        }
+        return true;
+    }
+}
