@@ -1,0 +1,31 @@
+***************** my approach ***************************
+class Solution {
+    public int uniquePaths(int m, int n) {
+        // total number of unique steps are :: (m + n - 2)! / ((m - 1)! * (n - 1)!)
+        int total = m + n - 2;
+        int Down = Math.min(m - 1, n - 1);
+        long result = 1;
+        for (int i = 1; i <= Down; i++) {
+            result = result * (total - i + 1) / i;
+        }
+        return (int) result;
+        }
+}
+*********************** another approach ******************
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int[][] memo = new int[m][n];
+        memo[0][0] = 1;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 || j == 0) {
+                    memo[i][j] = 1;
+                }
+                else {
+                    memo[i][j] = memo[i-1][j] + memo[i][j-1];
+                }
+            }
+        }
+        return memo[m-1][n-1];
+    }
+}
