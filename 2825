@@ -1,0 +1,32 @@
+class Solution {
+    public boolean canMakeSubsequence(String str1, String str2) {
+        int n1 = str1.length();
+        int n2 = str2.length();
+        int ptr1=0;
+        int ptr2=0;
+        while(ptr2<n2){
+            if(ptr1==n1 && ptr2 < n2){
+                return false;
+            }
+            char c1=str1.charAt(ptr1);
+            char curr = str2.charAt(ptr2);
+            if (c1 == 'z') {
+                if (c1 == curr || curr=='a') {
+                    ptr1++;
+                    ptr2++;
+                } else {
+                    ptr1++;
+                }
+            }
+            else if(c1==curr ||c1+1==curr ){
+                ptr1++;
+                ptr2++;
+            }
+            else{
+                ptr1++;
+            }
+            
+        }
+        return true;
+    }
+}
