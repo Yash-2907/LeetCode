@@ -1,0 +1,24 @@
+class Solution {
+    public int maximumLength(String s) {
+        int n = s.length();
+        int ans = -1;
+        HashMap<String, Integer> mp = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            StringBuilder currSub = new StringBuilder();
+            for (int j = i; j < n; j++) {
+                if (s.charAt(i) == s.charAt(j)) {
+                    currSub.append(s.charAt(j));
+                    String str = currSub.toString();
+                    mp.put(str, mp.getOrDefault(str, 0) + 1);
+                    if (mp.get(str) >= 3) {
+                        ans = Math.max(ans, str.length());
+                    }
+                }
+                else{
+                    break;
+                }
+            }
+        }
+        return ans;
+    }
+}
