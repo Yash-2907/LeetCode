@@ -1,0 +1,43 @@
+class Solution {
+    public String repeatLimitedString(String s, int repeatLimit) {
+       int[] charFreq = new int[26] ;
+       for(int i = 0; i < s.length(); i++){
+        charFreq[s.charAt(i) - 'a']++;
+       }
+       char[] charArr = new char[s.length()];
+       int pointer = 0;
+       List<Integer> emptyIdx = new ArrayList();
+       boolean gaps = false;
+       int currChar = 25, nextChar = 24;
+       StringBuilder sb = new StringBuilder();
+       while( currChar >= 0 ) {
+            if ( charFreq[currChar] == 0 )
+                {
+                    currChar--;
+                    nextChar--;
+                    continue;
+                }
+            int maxRepeat = Math.min( charFreq[currChar],  repeatLimit);
+            for(int i = 0 ; i < maxRepeat; i++ ){
+                sb.append( (char) ('a' + currChar) );
+                charFreq[currChar]--;
+            }
+            if ( charFreq[currChar] > 0) {
+                while(  nextChar >= 0 && charFreq[nextChar] == 0){
+                    nextChar--;
+                }
+                if( nextChar >= 0) {
+                    sb.append( (char) ('a' + nextChar) );
+                    charFreq[nextChar]--;                
+                }
+                else 
+                    currChar = nextChar ;
+            }
+            else {
+                currChar = nextChar;
+                nextChar--;
+            }
+       }
+       return sb.toString();
+    }
+}
