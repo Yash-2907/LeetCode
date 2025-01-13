@@ -1,0 +1,46 @@
+class Solution {
+    public String longestDiverseString(int a, int b, int c) {
+        int[] count = { a, b, c };
+        char[] ch = { 'a', 'b', 'c' };
+        StringBuilder str = new StringBuilder();
+        while (true) {
+            int curr = max(count);
+            int sec = secMax(count, curr);
+            if(count[curr]==0){
+                break;
+            }
+            int len = str.length();
+                if (len >= 2 && str.charAt(len - 1) == ch[curr] && str.charAt(len - 2) == ch[curr]) {
+                    if(count[sec]==0){
+                        break;
+                    }
+                    str.append(ch[sec]);
+                    count[sec]--;
+            } else {
+                str.append(ch[curr]);
+                count[curr]--;
+            }
+        }
+        return str.toString();
+    }
+
+    private int max(int[] counts) {
+        int midx = 0;
+        for (int i = 1; i < counts.length; i++) {
+            if (counts[i] > counts[midx]) {
+                midx = i;
+            }
+        }
+        return midx;
+    }
+
+    private int secMax(int[] counts, int midx) {
+        int secm = -1;
+        for (int i = 0; i < counts.length; i++) {
+            if (i != midx && (secm == -1 || counts[i] > counts[secm])) {
+                secm = i;
+            }
+        }
+        return secm;
+    }
+}
