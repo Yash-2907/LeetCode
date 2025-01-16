@@ -1,0 +1,27 @@
+class Solution {
+    public int xorAllNums(int[] nums1, int[] nums2) {
+        int n1 = 0, n2 = 0;
+
+        // XOR all elements in nums1
+        for (int num : nums1) {
+            n1 ^= num;
+        }
+
+        // XOR all elements in nums2
+        for (int num : nums2) {
+            n2 ^= num;
+        }
+
+        // If nums1.length is odd, n2 contributes fully; else it doesn't.
+        // If nums2.length is odd, n1 contributes fully; else it doesn't.
+        int result = 0;
+        if (nums1.length % 2 == 1) {
+            result ^= n2;
+        }
+        if (nums2.length % 2 == 1) {
+            result ^= n1;
+        }
+
+        return result;
+    }
+}
