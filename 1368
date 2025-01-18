@@ -1,0 +1,28 @@
+class Solution {
+    private static final int[][] DIRECTIONS = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    public int minCost(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        int[][] costs = new int[m][n];
+        for (int[] row : costs) Arrays.fill(row, Integer.MAX_VALUE);
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[2] - b[2]); // [row, col, cost]
+        costs[0][0] = 0;
+        pq.offer(new int[]{0, 0, 0});
+        while (!pq.isEmpty()) {
+            int[] current = pq.poll();
+            int row = current[0], col = current[1], cost = current[2];
+            if (row == m - 1 && col == n - 1) return cost;
+            
+            for (int d = 0; d < 4; d++) {
+                int newRow = row + DIRECTIONS[d][0];
+                int newCol = col + DIRECTIONS[d][1];
+                int newCost = cost + (grid[row][col] == d + 1 ? 0 : 1);
+                
+                if (newRow >= 0 && newRow < m && newCol >= 0 && newCol < n && newCost < costs[newRow][newCol]) {
+                    costs[newRow][newCol] = newCost;
+                    pq.offer(new int[]{newRow, newCol, newCost});
+                }
+            }
+        }
+        return -1;
+    }
+}
