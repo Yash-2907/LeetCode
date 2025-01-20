@@ -24,3 +24,31 @@ class Solution {
         return -1;
     }
 }
+
+***********************  ALTERNATIVE ****************************************
+class Solution {
+    public int firstCompleteIndex(int[] arr, int[][] mat) {
+        int row =mat.length;
+        int col =mat[0].length;
+        int [][] pos = new int[row*col+1][2];
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                pos[mat[i][j]]=new int[]{i,j};
+            }
+        }
+        int [] rpaint = new int[row];
+        int [] cpaint = new int[col];
+
+        for(int i =0;i<arr.length;i++){
+            int[] curr = pos[arr[i]];
+            int r =curr[0];
+            int c =curr[1];
+            rpaint[r]++;
+            cpaint[c]++;
+            if(rpaint[r]==col || cpaint[c]==row){
+                return i;
+            }
+        }
+        return -1;
+    }
+}
