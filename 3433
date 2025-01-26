@@ -1,0 +1,67 @@
+class Solution {
+    public int[] countMentions(int numberOfUsers, List<List<String>> events) {
+        int[] ans = new int[numberOfUsers];
+        boolean[] on = new boolean[numberOfUsers];
+        int[] backon = new int[numberOfUsers];
+        Arrays.fill(on, true);
+
+        events.sort((a, b) -> {
+            int timeA = Integer.parseInt(a.get(1));
+            int timeB = Integer.parseInt(b.get(1));
+            if (timeA != timeB) {
+                return timeA - timeB;
+            }
+            if (a.get(0).equals("OFFLINE") && b.get(0).equals("MESSAGE")) {
+                return -1;
+            }
+            if (a.get(0).equals("MESSAGE") && b.get(0).equals("OFFLINE")) {
+                return 1;
+            }
+            return 0;
+        });
+
+        for (List<String> event : events) {
+            String type = event.get(0);
+            int time = Integer.parseInt(event.get(1));
+            for (int i = 0; i < numberOfUsers; i++) {
+                if (!on[i] && time >= backon[i]) {
+                    on[i] = true;
+                }
+            }
+            if (type.equals("MESSAGE")) {
+                String ment = event.get(2);
+                Set<Integer> onuser = new HashSet<>();
+                for (int i = 0; i < numberOfUsers; i++) {
+                    if (on[i]) {
+                        onuser.add(i);
+                    }
+                }
+
+                String[] tk = ment.split("\\s+");
+                for (String token : tk) {
+                    if (token.equals("ALL")) {
+                        for (int i = 0; i < numberOfUsers; i++) {
+                            ans[i]++;
+                        }
+                    } else if (token.equals("HERE")) {
+                        for (int userId : onuser) {
+                            ans[userId]++;
+                        }
+                    } else if (token.startsWith("id")) {
+                        int userId = Integer.parseInt(token.substring(2));
+                        if (userId >= 0 && userId < numberOfUsers) {
+                            ans[userId]++;
+                        }
+                    }
+                }
+            } else if (type.equals("OFFLINE")) {
+                int userId = Integer.parseInt(event.get(2));
+                if (userId >= 0 && userId < numberOfUsers) {
+                    on[userId] = false;
+                    backon[userId] = time + 60;
+                }
+            }
+        }
+        return ans;
+    }
+}
