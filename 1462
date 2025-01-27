@@ -24,3 +24,34 @@ class Solution {
         return ans;
     }
 }
+
+******************************************************************************************************************
+
+class Solution {
+    public List<Boolean> checkIfPrerequisite(int numCourses, int[][] prerequisites, int[][] queries) {
+        List<Boolean> ret = new ArrayList<>();
+        if (prerequisites.length == 0) {
+            for (int i = 0; i < queries.length; i++) {
+                ret.add(false);
+            }
+            return ret;
+        }
+        boolean[][] isPrerequisit = new boolean[numCourses][numCourses];
+        for (int[] prerequisit : prerequisites) {
+            isPrerequisit[prerequisit[0]][prerequisit[1]] = true;
+        }
+        for (int k = 0; k < numCourses; k++) {
+            for (int i = 0; i < numCourses; i++) {
+                for (int j = 0; j < numCourses; j++) {
+                    if (isPrerequisit[i][k] && isPrerequisit[k][j]) {
+                        isPrerequisit[i][j] = true;
+                    }
+                }
+            }
+        }
+        for (int[] q : queries) {
+            ret.add(isPrerequisit[q[0]][q[1]]);
+        }
+        return ret;
+    }
+}
