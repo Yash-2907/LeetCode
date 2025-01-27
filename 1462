@@ -1,0 +1,26 @@
+class Solution {
+    public List<Boolean> checkIfPrerequisite(int numCourses, int[][] prerequisites, int[][] queries) {
+        Map<Integer, Set<Integer>> mp = new HashMap<>();
+        for (int i = 0; i < numCourses; i++) {
+            mp.put(i, new HashSet<>());
+        }
+        for (int[] prereq : prerequisites) {
+            mp.get(prereq[1]).add(prereq[0]);
+        }
+        for (int k = 0; k < numCourses; k++) {
+            for (int i = 0; i < numCourses; i++) {
+                if (mp.get(i).contains(k)) {
+                    mp.get(i).addAll(mp.get(k));
+                }
+            }
+        }
+        
+        List<Boolean> ans = new ArrayList<>();
+        for (int[] query : queries) {
+            int prerequisite = query[0];
+            int course = query[1];
+            ans.add(mp.get(course).contains(prerequisite));
+        }
+        return ans;
+    }
+}
