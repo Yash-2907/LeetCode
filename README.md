@@ -38,16 +38,5 @@ Add your solution.
 
 Create a pull request with a detailed explanation.
 
-🏆 Achievements
-
-400+ LeetCode problems solved
-
-Top 10% rated on LeetCode
-
-5⭐ on HackerRank, 1600+ rating on CodeChef
-
-📬 Connect with Me
-
-📧 Email: yashyadav9325@gmail.com🔗 GitHub: 11Yashyadav💼 LinkedIn: Yash Yadav
 
 Keep coding and keep growing! 🚀
