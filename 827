@@ -1,0 +1,48 @@
+class Solution {
+    Map<Integer, Integer> group_size=new HashMap<>();   
+    int[][] dir={{-1,0},{1,0},{0,-1},{0,1}};
+    int N;
+    int group=2;
+    public int largestIsland(int[][] grid) {
+        N=grid.length;
+        int max=0;
+        for(int r=0; r<N; r++){
+            for(int c=0; c<N; c++){
+                if(grid[r][c]==1){
+                    int size=dfs(grid, r,c,group);
+                    group_size.put(group, size);
+                    group++;
+                    max=Math.max(max, size);
+                }
+            }
+        }
+        for(int r=0; r<N; r++){
+            for(int c=0; c<N; c++){
+                if(grid[r][c]==0){
+                    Set<Integer> seen=new HashSet<>();
+                    int tot=1;
+                    for(int[]d : dir){
+                        int nr=r+d[0];
+                        int nc=c+d[1];
+                       if(nr<0 || nc<0 || nr>=N || nc>=N || grid[nr][nc]==0 || seen.contains(grid[nr][nc])) continue;
+                       tot+=group_size.get(grid[nr][nc]);
+                       seen.add(grid[nr][nc]);
+                    }
+                    max=Math.max(tot, max);
+                }
+            }
+        }
+        return max;
+    }
+    private int dfs(int[][] grid, int r, int c, int g){
+        grid[r][c]=g;
+        int size=1;
+        for(int[] d: dir){
+            int nr=r+d[0];
+            int nc=c+d[1];
+            if(nr<0 || nc<0 || nr>=N || nc>=N || grid[nr][nc]!=1) continue;
+            size+=dfs(grid,nr,nc,g);
+        }
+        return size;
+    }
+}
