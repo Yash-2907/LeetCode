@@ -1,0 +1,28 @@
+class Solution {
+    public int maxDistance(String s, int k) {
+                int no = 0, so = 0, w = 0, e = 0;
+        int ans = 0;
+        int n = s.length();
+        char[] moves = s.toCharArray();
+
+        for (int i = 0; i < n; i++) {
+            if (moves[i] == 'N')
+                no++;
+            else if (moves[i] == 'S')
+                so++;
+            else if (moves[i] == 'E')
+                e++;
+            else if (moves[i] == 'W')
+                w++;
+                
+            int maxi = Math.max(((e + no) - (w + so)+ 2 * Math.min(k, w + so)), 
+                        Math.max(((w + no) - (so + e)+ 2 * Math.min(k, so + e)), 
+                        Math.max(((so + e) - (no + w)+ 2 * Math.min(k, no + w)),
+                        Math.max(0, ((so + w) - (no + e)+ 2 * Math.min(k, no + e))))));
+            maxi = Math.min(maxi, i + 1);
+            ans = Math.max(ans, maxi);
+
+        }
+        return ans;
+    }
+}
