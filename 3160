@@ -1,0 +1,55 @@
+class Solution {
+    public int[] queryResults(int limit, int[][] queries) {
+        int n = queries.length;
+        Map<Integer, Integer> indexToColor = new HashMap<>();
+        Map<Integer, Integer> colorCount = new HashMap<>();
+        int[] ans = new int[n];
+        for (int[] que : queries) {
+            int idx = que[0];
+            int newColor = que[1];
+
+            if (indexToColor.containsKey(idx)) {
+                int oldColor = indexToColor.get(idx);
+                colorCount.put(oldColor, colorCount.get(oldColor) - 1);
+                if (colorCount.get(oldColor) == 0) {
+                    colorCount.remove(oldColor);
+                }
+            }
+
+            indexToColor.put(idx, newColor);
+            colorCount.put(newColor, colorCount.getOrDefault(newColor, 0) + 1);
+            ans[i] = colorCount.size();
+        }
+        return ans;
+    }
+}
+************************* Another code but got memory limit exceed ***********************************
+class Solution {
+    public int[] queryResults(int limit, int[][] queries) {
+        int n = queries.length;
+        int[] col = new int[limit + 1];
+        Map<Integer, Integer> mp = new HashMap<>();
+        int[] ans = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            int cidx = queries[i][0];
+            int ccol = queries[i][1];
+
+            if (col[cidx] == 0) {
+                col[cidx] = ccol;
+                mp.put(ccol, mp.getOrDefault(ccol, 0) + 1);
+            } else {
+                int prec = col[cidx];
+                if (mp.get(prec) == 1) {
+                    mp.remove(prec);
+                } else {
+                    mp.put(prec, mp.get(prec) - 1);
+                }
+                col[cidx] = ccol;
+                mp.put(ccol, mp.getOrDefault(ccol, 0) + 1);
+            }
+            ans[i] = mp.size();
+        }
+        return ans;
+    }
+}
