@@ -1,0 +1,41 @@
+class NumberContainers {
+    HashMap<Integer, Integer> idx;
+    HashMap<Integer, PriorityQueue<Integer>> num;
+
+    public NumberContainers() {
+        idx = new HashMap<>();
+        num = new HashMap<>();
+    }
+
+    public void change(int index, int number) {
+        if(num.containsKey(number)) {
+            num.get(number).add(index);
+        }else {
+            PriorityQueue<Integer> pq = new PriorityQueue<>();
+            pq.add(index);
+            num.put(number, pq);
+        }
+        idx.put(index, number);
+    }
+
+    public int find(int number) {
+        if(num.containsKey(number)) {
+            int i = num.get(number).peek();
+            if(idx.get(i) == number) {
+                return i;
+            }else{
+                num.get(number).poll();
+                if(num.get(number).isEmpty()) num.remove(number);
+                return find(number);
+            }
+        }
+        return -1;
+    }
+}
+
+/**
+ * Your NumberContainers object will be instantiated and called as such:
+ * NumberContainers obj = new NumberContainers();
+ * obj.change(index,number);
+ * int param_2 = obj.find(number);
+ */
