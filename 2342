@@ -1,0 +1,34 @@
+import java.util.*;
+
+class Solution {
+    public int maximumSum(int[] nums) {
+        int n = nums.length;
+        int max = -1;
+        HashMap<Integer, PriorityQueue<Integer>> mp = new HashMap<>();
+        
+        for (int i = 0; i < n; i++) {
+            int curr = nums[i];
+            int sum = 0;
+            while (curr > 0) {
+                sum += curr % 10;
+                curr = curr / 10;
+            }
+            
+            if (!mp.containsKey(sum)) {
+                mp.put(sum, new PriorityQueue<>(Collections.reverseOrder()));
+            }
+            
+            PriorityQueue<Integer> pq = mp.get(sum);
+            pq.add(nums[i]);
+            
+            if (pq.size() > 1) {
+                int first = pq.poll();
+                int second = pq.peek();
+                max = Math.max(max, first + second);
+                pq.add(first);
+            }
+        }
+        
+        return max;
+    }
+}
