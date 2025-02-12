@@ -1,5 +1,4 @@
-import java.util.*;
-
+********************************* Priority Queue ***************************************************
 class Solution {
     public int maximumSum(int[] nums) {
         int n = nums.length;
@@ -29,6 +28,47 @@ class Solution {
             }
         }
         
+        return max;
+    }
+}
+**************************************** Map with ArrayList ****************************************
+class Solution {
+    public int maximumSum(int[] nums) {
+        int n =nums.length;
+        int max=-1;
+        HashMap<Integer, ArrayList<Integer>> mp = new HashMap<>();
+        for(int i =0;i<n ;i++){
+            int curr =nums[i];
+            int sum =0;
+            while(curr>0){
+                sum+= curr%10;
+                curr=curr/10;
+            }
+            
+            if(mp.containsKey(sum)){
+                ArrayList<Integer> arr = mp.get(sum);
+                if(arr.size()==1){
+                    arr.add(nums[i]);
+                }
+                else if(arr.size()==2){
+                    if(arr.get(0) <= arr.get(1) && arr.get(0) < nums[i]){
+                        arr.remove(0);
+                        arr.add(nums[i]);
+                    }
+                    if (arr.get(1) <= arr.get(0) && arr.get(1) < nums[i]) {
+                        arr.remove(1);
+                        arr.add(nums[i]);
+                    }
+                }
+                max=Math.max(max,arr.get(0)+arr.get(1));
+            }
+            else{
+                ArrayList<Integer> arr = new ArrayList<>();
+                arr.add(nums[i]);
+                mp.put(sum, arr);
+            }
+        }
+        System.out.println(mp);
         return max;
     }
 }
