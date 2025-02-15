@@ -1,0 +1,29 @@
+class Solution {
+    public int punishmentNumber(int n) {
+        int ans = 0;
+        for(int i=1;i<=n;i++){
+            int num = i*i;
+            String val =  String.valueOf(num);
+            if(possible(0,val,i,0)){
+                ans+=num;
+            }
+        }
+        return ans;
+    }
+    public boolean possible(int id,String val, int num,int sum){
+        if (num <= 36) return num == 1 || num == 9 || num == 10 || num == 36;
+        if (num == 999 || num == 1000 || num == 99 || num == 100) return true;
+
+        if(id==val.length()){
+            return sum==num;
+        }
+        for(int i=id;i<val.length();i++){
+            String s = val.substring(id,i+1);
+            int value = Integer.parseInt(s);
+            if(possible(i+1,val,num,sum+value)){
+                return true;
+            }
+        }
+        return false;
+    }
+}
