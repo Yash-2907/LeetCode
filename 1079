@@ -1,0 +1,28 @@
+class Solution {
+    public int numTilePossibilities(String tiles) {
+        HashMap<Character, Integer> mp = new HashMap<>();
+        int len = tiles.length();
+
+        for(int i = 0; i < len; i++)
+            mp.put(tiles.charAt(i), mp.getOrDefault(tiles.charAt(i), 0) + 1);
+
+        return countTiles(tiles, mp);
+    }
+
+    int countTiles(String tiles, HashMap<Character, Integer> mp){
+        int count = 0;
+        for(Character ch : mp.keySet()){
+            HashMap<Character, Integer> tempMap = new HashMap<>(mp);
+
+            if(tempMap.get(ch) == 1)
+                tempMap.remove(ch);
+            else
+                tempMap.put(ch, tempMap.get(ch) - 1);
+
+            int temp = 1 + countTiles(tiles, tempMap);
+            count += temp;
+        }
+
+        return count;
+    }
+}
