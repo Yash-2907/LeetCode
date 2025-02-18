@@ -1,0 +1,38 @@
+class Solution {
+    public String smallestNumber(String pattern) {
+        int n = pattern.length();
+        int[] arr = new int[n + 1];
+        int cur = 1;
+
+        for (int i = 0; i <= n; i++) {
+            arr[i] = cur++;
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (pattern.charAt(i) == 'D') {
+                int j = i;
+                while (j < n && pattern.charAt(j) == 'D') {
+                    j++;
+                }
+                reverse(arr, i, j);
+                i = j - 1;
+            }
+        }
+
+        StringBuilder ans = new StringBuilder();
+        for (int num : arr) {
+            ans.append(num);
+        }
+        return ans.toString();
+    }
+
+    private void reverse(int[] arr, int l, int r) {
+        while (l < r) {
+            int tem = arr[l];
+            arr[l] = arr[r];
+            arr[r] = tem;
+            l++;
+            r--;
+        }
+    }
+}
