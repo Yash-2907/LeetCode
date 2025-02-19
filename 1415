@@ -1,0 +1,29 @@
+class Solution {
+    private int count = 0; 
+    private String result = "";
+    public String getHappyString(int n, int k) {
+        if (k > 3 * Math.pow(2, n - 1)) {
+            return "";
+        }
+        backtrack(n, new StringBuilder(), ' ', k);
+        return result;
+    }
+
+    private void backtrack(int n, StringBuilder str, char prev, int k) {
+        if (str.length() == n) {
+            count++;
+            if (count == k) {
+                result = str.toString();
+            }
+            return;
+        }
+        if (!result.isEmpty()) return;
+        for (char c : new char[]{'a', 'b', 'c'}) {
+            if (c != prev) {
+                str.append(c);
+                backtrack(n, str, c, k);
+                str.deleteCharAt(str.length() - 1);
+            }
+        }
+    }
+}
