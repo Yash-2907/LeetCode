@@ -1,0 +1,30 @@
+class Solution {
+    public String findDifferentBinaryString(String[] nums) {
+        int n = nums.length;
+        Set<String> set = new HashSet<>(Arrays.asList(nums));
+        StringBuilder s = new StringBuilder();
+        return help(0, n, s, set);
+    }
+
+    public static String help(int curr, int n, StringBuilder str, Set<String> set) {
+        if (curr == n) {
+            String s = str.toString();
+            if (!set.contains(s)) {
+                return s;
+            }
+            return "";
+        }
+
+        str.append('0');
+        String result = help(curr + 1, n, str, set);
+        if (!result.isEmpty()) return result;
+        str.deleteCharAt(str.length() - 1);
+
+        str.append('1');
+        result = help(curr + 1, n, str, set);
+        if (!result.isEmpty()) return result;
+        str.deleteCharAt(str.length() - 1);
+
+        return "";
+    }
+}
