@@ -1,0 +1,45 @@
+class Solution {
+    public boolean validateBinaryTreeNodes(int n, int[] leftChild, int[] rightChild) {
+        // Find the degree of each node to find the root
+        int degree[] = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (leftChild[i] != -1) {
+                degree[leftChild[i]]++;
+                if (degree[leftChild[i]] > 1) return false; // Node has more than one parent
+            }
+            if (rightChild[i] != -1) {
+                degree[rightChild[i]]++;
+                if (degree[rightChild[i]] > 1) return false; // Node has more than one parent
+            }
+        }
+
+        // Check for the root
+        int root = -1;
+        for (int i = 0; i < n; i++) {
+            if (degree[i] == 0) {
+                if (root == -1) root = i;
+                else return false; // More than one root
+            }
+        }
+        if (root == -1) return false; // No root found
+
+        // Check for the number of nodes in the tree and check if there are cycles
+        boolean vd[] = new boolean[n];
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(root);
+        while (!q.isEmpty()) {
+            int node = q.poll();
+            if (vd[node]) return false; // Cycle detected
+            vd[node] = true;
+            if (leftChild[node] != -1) q.offer(leftChild[node]);
+            if (rightChild[node] != -1) q.offer(rightChild[node]);
+        }
+
+        // Count the number of nodes based on the visited array
+        int c = 0;
+        for (boolean b : vd) {
+            if (b) c++;
+        }
+        return c == n; // All nodes are connected
+    }
+}
