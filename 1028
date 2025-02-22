@@ -1,0 +1,46 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode recoverFromPreorder(String traversal) {
+        String[] parts = traversal.split("(?<=\\d)(?=-)|(?<=-)(?=\\d)");
+        for(int i =0;i<parts.length;i++){
+        }
+        Map<Integer, TreeNode> depthMap = new HashMap<>();
+        int i = 0;
+        
+        while (i < parts.length) {
+            int depth = 0;
+            while (i < parts.length && parts[i].charAt(0) == '-') {
+                depth += parts[i].length();
+                i++;
+            }
+            int val = Integer.parseInt(parts[i]);
+            i++;
+
+            TreeNode node = new TreeNode(val);
+            if (depth > 0) {
+                TreeNode parent = depthMap.get(depth - 1);
+                if (parent.left == null) {
+                    parent.left = node;
+                } else {
+                    parent.right = node;
+                }
+            }
+            depthMap.put(depth, node);
+        }
+        return depthMap.get(0);
+    }
+}
