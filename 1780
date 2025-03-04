@@ -1,0 +1,34 @@
+class Solution {
+    public boolean checkPowersOfThree(int n) {
+        List<Integer> arr = new ArrayList<>();
+        int curr =1;
+        while(curr <= n){
+            arr.add(curr);
+            curr*=3;
+        }
+        arr.add(curr*3);
+        if(arr.contains(n)){
+            return true;
+        }
+        
+        return help(n,arr);
+    }
+    private boolean help(int n ,List<Integer> arr){
+        if(arr.contains(n) || n==0){
+            return true;
+        }
+        else if (n < 0){
+            return false;
+        }
+        else{
+            for(int i =1;i<arr.size();i++){
+                if(arr.get(i)>n && arr.get(i-1)<=n){
+                    n -= arr.get(i-1);
+                    arr.remove(arr.get(i-1));
+                    return help(n,arr);
+                }
+            }
+        }
+        return false;
+    }
+}
