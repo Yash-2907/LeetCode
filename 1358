@@ -14,3 +14,21 @@ class Solution {
         return res;
     }
 }
+********************** optimised solution *********************** [ same above only change is that we can use character array ]
+class Solution {
+    public int numberOfSubstrings(String s) {
+        int[] track = new int[3];
+        int res = 0;
+        int left = 0;
+        int n = s.length();
+        char [] arr = s.toCharArray();
+        for (int i = 0; i < n; i++) {
+            track[arr[i] - 'a']++;
+            while (track[0] > 0 && track[1] > 0 && track[2] > 0) {
+                res += n - i;
+                track[arr[left++] - 'a']--;
+            }
+        }
+        return res;
+    }
+}
