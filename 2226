@@ -1,0 +1,29 @@
+class Solution {
+    public int maximumCandies(int[] candies, long k) {
+        int r =-1;
+        for(int i : candies){
+            r = Math.max(r,i);
+        }
+        int l =1;
+        while(l <= r){
+            int m  = l + (r-l)/2;
+            if(help(candies,k,m)){
+                l=m+1;
+            }
+            else{
+                r=m-1;
+            }
+        }
+        return l-1;
+    }
+        public static boolean help(int [] arr , long k , int m){
+        if(m==0){
+            return false;
+        }
+        long s =0;
+        for(int a : arr){
+            s+= (a/m) ;
+        }
+        return s>=k;
+    } 
+}
