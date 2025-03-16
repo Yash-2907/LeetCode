@@ -1,0 +1,47 @@
+class Spreadsheet {
+    private final int[][] grid;
+
+    public Spreadsheet(int rows) {
+        grid = new int[rows][26];
+    }
+    
+    public void setCell(String cell, int value) {
+        int[] position = parseCellPosition(cell);
+        grid[position[0]][position[1]] = value;
+    }
+
+    public void resetCell(String cell) {
+        int[] position = parseCellPosition(cell);
+        grid[position[0]][position[1]] = 0;
+    }
+
+    public int getValue(String formula) {
+        if (!formula.startsWith("=")) {
+            return Integer.parseInt(formula);
+        }
+
+        String[] parts = formula.substring(1).split("\\+");
+        int sum = 0;
+
+        for (String part : parts) {
+            sum += validateCellReference(part) ? fetchCellValue(part) : Integer.parseInt(part);
+        }
+
+        return sum;
+    }
+
+    private int fetchCellValue(String cell) {
+        int[] position = parseCellPosition(cell);
+        return grid[position[0]][position[1]];
+    }
+
+    private int[] parseCellPosition(String cell) {
+        int column = cell.charAt(0) - 'A';
+        int row = Integer.parseInt(cell.substring(1)) - 1;
+        return new int[]{row, column};
+    }
+
+    private boolean validateCellReference(String s) {
+        return Character.isLetter(s.charAt(0));
+    }   
+}
