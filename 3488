@@ -1,0 +1,35 @@
+class Solution {
+    public List<Integer> solveQueries(int[] nums, int[] queries) {
+        int n = nums.length;
+        List<Integer> ans = new ArrayList<>();
+        Map<Integer, List<Integer>> mp = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            mp.computeIfAbsent(nums[i], k -> new ArrayList<>()).add(i);
+        }
+        for (int query : queries) {
+            int target = nums[query];
+            List<Integer> idx = mp.get(target);
+            if (idx == null || idx.size() == 1) {
+                ans.add(-1);
+                continue;
+            }
+            int minDistance = n;
+            int queryIndex = Collections.binarySearch(idx, query);
+
+            int left = (queryIndex - 1 + idx.size()) % idx.size();
+            int right = (queryIndex + 1) % idx.size();
+            minDistance = Math.min(minDistance, Math.min(
+                Math.abs(idx.get(left) - query),
+                n - Math.abs(idx.get(left) - query)
+            ));
+
+            minDistance = Math.min(minDistance, Math.min(
+                Math.abs(idx.get(right) - query),
+                n - Math.abs(idx.get(right) - query)
+            ));
+            ans.add(minDistance);
+        }
+
+        return ans;
+    }
+}
