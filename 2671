@@ -1,0 +1,38 @@
+class FrequencyTracker {
+    private Map<Integer, Integer> mp;
+    private Map<Integer, Integer> freqCount;
+
+    public FrequencyTracker() {
+        mp = new HashMap<>();
+        freqCount = new HashMap<>();
+    }
+
+    public void add(int number) {
+        int oldFreq = mp.getOrDefault(number, 0);
+        int newFreq = oldFreq + 1;
+        mp.put(number, newFreq);
+        if (oldFreq > 0) {
+            freqCount.put(oldFreq, freqCount.get(oldFreq) - 1);
+        }
+        freqCount.put(newFreq, freqCount.getOrDefault(newFreq, 0) + 1);
+    }
+
+    public void deleteOne(int number) {
+        if (!mp.containsKey(number)) return;
+
+        int oldFreq = mp.get(number);
+        int newFreq = oldFreq - 1;
+
+        freqCount.put(oldFreq, freqCount.get(oldFreq) - 1);
+        if (newFreq > 0) {
+            mp.put(number, newFreq);
+            freqCount.put(newFreq, freqCount.getOrDefault(newFreq, 0) + 1);
+        } else {
+            mp.remove(number);
+        }
+    }
+
+    public boolean hasFrequency(int frequency) {
+        return freqCount.getOrDefault(frequency, 0) > 0;
+    }
+}
