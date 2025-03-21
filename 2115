@@ -1,0 +1,34 @@
+class Solution {
+    public List<String> findAllRecipes(String[] recipes, List<List<String>> ingredients, String[] supplies) {
+        int re = recipes.length;
+
+        Set<String> supplySet = new HashSet<>(Arrays.asList(supplies));
+
+        List<String> ans = new ArrayList<>();
+        boolean newres = true;
+        while (newres) {
+            newres = false;
+
+            for (int i = 0; i < re; i++) {
+                if (supplySet.contains(recipes[i])) continue;
+
+                boolean isValid = true;
+                List<String> curr = ingredients.get(i);
+
+                for (String ing : curr) {
+                    if (!supplySet.contains(ing)) {
+                        isValid = false;
+                        break;
+                    }
+                }
+                if (isValid) {
+                    ans.add(recipes[i]);
+                    supplySet.add(recipes[i]); 
+                    newres = true;
+                }
+            }
+        }
+
+        return ans;
+    }
+}
