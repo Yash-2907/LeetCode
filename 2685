@@ -1,0 +1,47 @@
+class Solution {
+    public int countCompleteComponents(int n, int[][] edges) {
+        Map<Integer, List<Integer>> m = new HashMap<>();
+        for(int i = 0; i < edges.length; i++)
+        {
+            if(m.get(edges[i][0]) != null)
+            {
+                List<Integer> l = m.get(edges[i][0]);
+                l.add(edges[i][1]);
+                m.put(edges[i][0], l);
+            }
+            else m.put(edges[i][0], new ArrayList<>(Arrays.asList(edges[i][1])));
+            if(m.get(edges[i][1]) != null)
+            {
+                List<Integer> l = m.get(edges[i][1]);
+                l.add(edges[i][0]);
+                m.put(edges[i][1], l);
+            }
+            else m.put(edges[i][1], new ArrayList<>(Arrays.asList(edges[i][0])));
+        }
+        
+        Set<Integer> seen = new HashSet<>();
+        HashMap<List<Integer>, Integer> count = new HashMap<>();
+
+        for(Map.Entry<Integer, List<Integer>> entry : m.entrySet())
+        {
+            seen.add(entry.getKey());
+            List<Integer> temp = new ArrayList<>();
+            temp.add(entry.getKey());
+            for(int i : entry.getValue()) temp.add(i);
+
+            Collections.sort(temp);
+            count.put(temp, count.getOrDefault(temp, 0) + 1);
+        }
+
+        int answer = 0;
+        for(Map.Entry<List<Integer>, Integer> entry : count.entrySet())
+        {
+            if(entry.getKey().size() == entry.getValue()) answer++;
+        }
+        for(int i = 0; i < n; i++)
+        {
+            if(seen.add(i) == true) answer++;
+        }
+        return answer;
+    }
+}
