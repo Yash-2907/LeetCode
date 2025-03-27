@@ -1,0 +1,30 @@
+class Solution {
+    public int minimumIndex(List<Integer> nums) {
+        int n = nums.size();
+        HashMap<Integer,Integer> mp = new HashMap<>();
+        for(int num  : nums){
+            mp.put(num , mp.getOrDefault(num, 0)+1 );
+        }
+        int maxfre=0;
+        int maxe=-1;
+        for(Map.Entry<Integer,Integer> ent : mp.entrySet()){
+            if(ent.getValue() > maxfre){
+                maxe = ent.getKey();
+                maxfre = ent.getValue();
+            }
+        }
+        if(maxfre*2 < n){
+            return -1;
+        }
+        int left =0;
+        for(int i =0;i<n;i++){
+            int curr = nums.get(i);
+            if(curr==maxe) left++;
+            int right = maxfre - left ;
+            if(left *2 >(i+1) && right*2 >  (n-i-1)){
+                return i;
+            }
+        }
+        return -1;
+    }
+}
