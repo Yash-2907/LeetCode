@@ -1,0 +1,12 @@
+class Solution {
+    public int subsetXORSum(int[] nums) {
+        return help(0,nums,0);
+    } public static int help(int clen, int[] nums, int ans ){
+        if(clen==nums.length){
+            return ans;
+        }
+        int s = help(clen+1,nums,ans^nums[clen]);
+        int ns = help(clen+1,nums,ans);
+        return ns+s;
+    }
+}
