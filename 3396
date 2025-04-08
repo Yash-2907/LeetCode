@@ -1,0 +1,43 @@
+class Solution {
+    public int minimumOperations(int[] nums) {
+        int n = nums.length;
+        HashMap<Integer,Integer> mp = new HashMap<>();
+        for(int i =0;i<n;i++){
+            mp.put(nums[i],mp.getOrDefault(nums[i],0)+1);
+        }
+        if(mp.size()==n){
+            return 0;
+        }
+        int curr =0;
+        int ans=0;
+        while(!is(mp)){
+
+            if(curr+2< n){
+                ans++;
+                mp.put(nums[curr], mp.getOrDefault(nums[curr],0)-1);
+                mp.put(nums[curr+1], mp.getOrDefault(nums[curr+1],0)-1);
+                mp.put(nums[curr+2], mp.getOrDefault(nums[curr+2],0)-1);
+                curr+=3;
+            }
+            else{
+                ans++;
+                int min = Math.min(curr+2, n-1);
+                for(int j =curr;j<=min;j++){
+                    mp.put(nums[j], mp.getOrDefault(nums[j],0)-1);
+                }
+
+                curr+=min;
+                break;
+            }
+        }
+        return ans;
+    }
+    public static boolean is(HashMap<Integer,Integer> mp){
+        for(Map.Entry<Integer,Integer> etr : mp.entrySet()){
+            if(etr.getValue()>1){
+                return false;
+            }
+        }
+        return true;
+    }
+}
