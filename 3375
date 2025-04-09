@@ -14,3 +14,25 @@ class Solution {
         return set.size();
     }
 }
+
+
+***************************** OPTIMISED SOLUTION ***************************************
+
+class Solution {
+    public int minOperations(int[] nums, int k) {
+        int n = nums.length;
+        boolean is[] = new boolean[101];
+        int count=0;
+        for(int i =0;i<n;i++){
+            if(k > nums[i]){
+               return -1;
+            }
+            if(is[nums[i]]==false && nums[i]!=k){
+                is[nums[i]]=true;
+                count++;
+            }
+        }
+        return count;
+        
+    }
+}
