@@ -34,3 +34,35 @@ class Solution {
     }
 }
 
+******************** ANOTHER APPROCH ***********************
+class Solution {
+    public int countSymmetricIntegers(int low, int high) {
+        int[] arr = new int[10001];
+
+        for (int i = 1; i <= 9; i++) {
+            arr[i * 11] = 1;
+        }
+
+        for (int f = 1; f <= 9; f++) {
+            for (int s = 0; s <= 9; s++) {
+                int sum1 = f + s;
+                for (int t = 0; t <= 9; t++) {
+                    for (int fo = 0; fo <= 9; fo++) {
+                        if (t + fo == sum1) {
+                            int num = f * 1000 + s * 100 + t * 10 + fo;
+                            arr[num] = 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        for (int i = 1; i <= 10000; i++) {
+            arr[i] += arr[i - 1];
+        }
+
+        if (low == 0) low = 1;
+        return arr[high] - arr[low - 1];
+    }
+}
+
