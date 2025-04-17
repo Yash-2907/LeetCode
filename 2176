@@ -1,0 +1,29 @@
+import java.util.*;
+
+class Solution {
+    public int countPairs(int[] nums, int k) {
+        int n = nums.length;
+        int ans = 0;
+        HashMap<Integer, ArrayList<Integer>> mp = new HashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            mp.putIfAbsent(nums[i], new ArrayList<>());
+            mp.get(nums[i]).add(i);
+        }
+
+        for (ArrayList<Integer> ind : mp.values()) {
+            int s = ind.size();
+            if (s < 2) continue; 
+
+            for (int i = 0; i < s; i++) {
+                for (int j = i + 1; j < s; j++) {
+                    if ((ind.get(i) * ind.get(j)) % k == 0) {
+                        ans++;
+                    }
+                }
+            }
+        }
+
+        return ans;
+    }
+}
