@@ -1,5 +1,37 @@
 class Solution {
     public int countLargestGroup(int n) {
+       
+        int s [] = new int[37];
+        for(int i =0;i<=n;i++){
+            int temp =i;
+            int sum =0;
+            while(temp > 0){
+                sum+=temp%10;
+                temp=temp/10;
+            }
+            if(sum >0){
+                s[sum]++;
+            }
+        }
+       
+        int max =-1;
+        for(int i =1;i<37;i++){
+            max=Math.max(max,s[i]);
+        }
+        int ans=0;
+        for(int i =1;i<37;i++){
+            if(max==s[i]){
+                ans++;
+            }
+        }
+        return ans;
+    }
+}
+
+************************************* ANOTHER APPROCH ***************************************
+
+class Solution {
+    public int countLargestGroup(int n) {
         int ans=0;
         int max=0;
         int[] t = new int[n+1];
