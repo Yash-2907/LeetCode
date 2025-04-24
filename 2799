@@ -1,0 +1,24 @@
+class Solution {
+    public int countCompleteSubarrays(int[] nums) {
+        int n = nums.length;
+        HashSet<Integer> tot = new HashSet<>();
+        for(int i =0;i<n;i++){
+            tot.add(nums[i]);
+        }
+        int uni = tot.size();
+        
+        int ans =0;
+        for(int i =0; i+uni-1 < n;i++){
+            HashSet<Integer> st = new HashSet<>();
+
+            for(int j=i;j<n;j++){
+                st.add(nums[j]);
+                if(st.size()==uni){
+                    ans++;
+                }
+            }
+            
+        }
+        return ans;
+    }
+}
