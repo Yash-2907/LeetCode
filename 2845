@@ -1,3 +1,4 @@
+********************************** MOST OPTIMIZED SOLUTION ********************************
 class Solution {
     public long countInterestingSubarrays(List<Integer> nums, int modulo, int k) {
 
@@ -24,5 +25,30 @@ class Solution {
         }
         
         return ans;
+    }
+}
+
+
+*************** Brush force ******************************
+class Solution {
+    public long countInterestingSubarrays(List<Integer> nums, int modulo, int k) {
+        long ans =0;
+       int n = nums.size();
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                int count =0;
+                for (int t = i; t <= j; t++) {
+                    if(nums.get(t)%modulo == k){
+                        count++;
+                    }
+                }
+                if(count%modulo == k){
+                    ans++;
+                }
+            }
+        }
+
+      return ans ;
     }
 }
