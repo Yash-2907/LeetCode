@@ -1,0 +1,28 @@
+class Solution {
+    int nums, grid[][];
+    public void solve(int row, int col, int size) {
+
+        if(size == 1) {
+            grid[row][col] = --nums;
+            return;
+        }
+
+        int n = size / 2;
+
+        solve(row, col, n);
+        solve(row + n, col, n);
+        solve(row + n, col + n, n);
+        solve(row, col + n, n);
+    }
+    public int[][] specialGrid(int n) {
+        
+        int size = (int)(Math.pow(2, n));
+
+        this.grid = new int[size][size];
+        this.nums = size * size;
+        
+        solve(0, 0, size);
+
+        return grid;
+    }
+}
