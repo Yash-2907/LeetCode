@@ -1,0 +1,72 @@
+class Solution {
+    private static final int MOD = 1000000007;
+
+    public int lengthAfterTransformations(String s, int t, List<Integer> nums) {
+        int n = s.length();
+        long[] counts = new long[26];
+        for (char c : s.toCharArray()) {
+            counts[c - 'a']++;
+        }
+
+        int[][] transformationMatrix = new int[26][26];
+        for (int i = 0; i < 26; i++) {
+            int k = nums.get(i);
+            for (int j = 1; j <= k; j++) {
+                transformationMatrix[i][(i + j) % 26] = 1;
+            }
+        }
+
+        int[][] transformedMatrix = power(transformationMatrix, t);
+
+        long[] finalCounts = new long[26];
+        for (int i = 0; i < 26; i++) {
+            for (int j = 0; j < 26; j++) {
+                finalCounts[j] = (finalCounts[j] + counts[i] * transformedMatrix[i][j]) % MOD;
+            }
+        }
+
+        long finalLength = 0;
+        for (long count : finalCounts) {
+            finalLength = (finalLength + count) % MOD;
+        }
+
+        return (int) finalLength;
+    }
+
+  private int[][] multiplyMatrices(int[][] A, int[][] B) {
+        int rowsA = A.length;
+        int colsA = A[0].length;
+        int rowsB = B.length;
+        int colsB = B[0].length;
+        if (colsA != rowsB) {
+            throw new IllegalArgumentException("Matrices can't be multiplied!");
+        }
+
+        int[][] C = new int[rowsA][colsB];
+        for (int i = 0; i < rowsA; i++) {
+            for (int j = 0; j < colsB; j++) {
+                long sum = 0;
+                for (int k = 0; k < colsA; k++) {
+                    sum = (sum + (long) A[i][k] * B[k][j]) % MOD;
+                }
+                C[i][j] = (int) sum;
+            }
+        }
+        return C;
+    }
+    private int[][] power(int[][] matrix, int exp) {
+        int size = matrix.length;
+        int[][] result = new int[size][size];
+        for (int i = 0; i < size; i++) {
+            result[i][i] = 1;
+        }
+        while (exp > 0) {
+            if ((exp & 1) == 1) {
+                result = multiplyMatrices(result, matrix);
+            }
+            matrix = multiplyMatrices(matrix, matrix);
+            exp >>= 1;
+        }
+        return result;
+    }
+}
